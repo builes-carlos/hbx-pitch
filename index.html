@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="gate.js"></script>
+  <script src="gate.js"></script>
 <title>HBX — Agentes de IA sobre sistemas legacy</title>
 <meta name="description" content="El core, el ERP, la base de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -580,7 +580,7 @@
       <li><a href="#costo">El costo</a></li>
       <li><a href="#regulador">El regulador</a></li>
       <li><a href="#salida">La salida</a></li>
-      <li><a href="#productos">Productos</a></li>
+      <li><a href="#productos">El motor</a></li>
       <li><a href="#industria">La industria</a></li>
       <li><a href="#competencia">Competencia</a></li>
     </ul>
@@ -811,7 +811,7 @@
         <span class="beat-num">05</span>
         <div>
           <h3>El tráfico va directo</h3>
-          <p>Cifrado, de punto a punto, entre el agente y su sistema. Nunca pasa por HBX: sus datos no son nuestro negocio.</p>
+          <p>Cifrado, de punto a punto, entre el agente y su sistema. Nunca pasa por HBX: un intermediario que ve su tráfico no es una protección, es un riesgo nuevo.</p>
         </div>
       </div>
       <div class="beat">
@@ -831,20 +831,25 @@
   </div>
 </section>
 
-<!-- 9. PRODUCTOS -->
+<!-- 9. EL MOTOR -->
 <section id="productos" class="alt">
   <div class="container">
-    <p class="eyebrow reveal">Dos productos, un motor</p>
-    <h2 class="reveal">El mismo control para agentes y para personas</h2>
+    <p class="eyebrow reveal">El motor</p>
+    <h2 class="reveal">Un solo motor: HBX Access. El actor puede ser un agente o una persona.</h2>
+    <p class="lead reveal">La decisión de autorización, el camino privado y la llave de sesión son exactamente los mismos si el que entra es un agente de IA o un técnico humano. El hueco de mercado está en los agentes, y por eso este documento habla de ellos. Pero el motor no distingue: gobierna a cualquier actor que necesite entrar a un sistema legacy. Y no es un prototipo: ya opera en producción gobernando el acceso de técnicos a la infraestructura de un fabricante europeo de hardware de red, sin haber tocado su firmware.</p>
     <div class="cards cards-2">
       <div class="card reveal">
-        <h3>A2L — Agent to Legacy</h3>
-        <p>El protagonista de este documento. Agentes de IA entrando a sistemas legacy con acceso que nace y muere por tarea, negación por defecto, aprobación humana por transacción y registro verificable.</p>
+        <h3>A2L — el agente</h3>
+        <p>Donde está el hueco y donde duele hoy: acceso que nace y muere por tarea, negación por defecto, aprobación humana por transacción.</p>
       </div>
       <div class="card reveal">
-        <h3>H2L — Human to Legacy</h3>
-        <p>El mismo motor, para técnicos y personal. La nube con la que operadores y fabricantes gobiernan el acceso humano a infraestructura desplegada. Opera hoy con LevelOne, fabricante alemán de hardware de red, integrado sin modificar firmware.</p>
+        <h3>H2L — la persona</h3>
+        <p>El mismo contrato para su gente y sus proveedores: el técnico entra por el mismo camino gobernado, con la misma llave que se vence sola. Un solo modelo de acceso para todo lo que toca su legacy.</p>
       </div>
+    </div>
+    <div class="callout reveal">
+      <h3>Estándar abierto, no protocolo propietario.</h3>
+      <p>HBX implementa los estándares de identidad para agentes que la industria está definiendo en la OpenID Foundation, y participa como proveedor de autorización en su evento de interoperabilidad de seguridad para agentes (Gartner IAM Summit, diciembre de 2026). Si HBX desapareciera mañana, su arquitectura de acceso seguiría siendo estándar.</p>
     </div>
   </div>
 </section>
@@ -874,7 +879,7 @@
     </div>
     <div class="callout reveal">
       <h3>Y los que siguen vivos levantan capital para esto.</h3>
-      <p>Tailscale vale US$1.500 millones desde abril de 2025. Oasis Security levantó US$120 millones en marzo de 2026 para exactamente esta categoría: gestión de acceso agéntico. La tesis no necesita evangelización; necesita quién cubra la mitad que falta.</p>
+      <p>Tailscale vale US$1.500 millones desde abril de 2025. Oasis Security levantó US$120 millones en marzo de 2026 para exactamente esta categoría: gestión de acceso agéntico. Y la OpenID Foundation ya corre un evento de interoperabilidad de seguridad para agentes presentado en el Gartner IAM Summit: la categoría hasta tiene su estándar en construcción. La tesis no necesita evangelización; necesita quién cubra la mitad que falta.</p>
     </div>
   </div>
 </section>
