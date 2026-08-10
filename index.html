@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="gate.js"></script>
+<title>HBX — Agentes de IA sobre sistemas legacy</title>
+<meta name="description" content="El core, el ERP, la base de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07080B;
+    --bg-alt:#0B0D12;
+    --card-bg:rgba(255,255,255,0.05);
+    --card-border:rgba(255,255,255,0.10);
+    --text:#ffffff;
+    --body:#cbd5e1;
+    --secondary:#94a3b8;
+    --muted:#64748b;
+    --accent:#6E8BFF;
+    --accent2:#A78BFA;
+    --chip-bg:rgba(110,139,255,0.15);
+    --chip-text:#b9c6ff;
+    --btn:#4f5fd6;
+    --btn-hover:#6E8BFF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--body);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.num,.big-num{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    color:var(--text);
+    margin:0;
+  }
+  .container{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+  section{
+    padding:clamp(58px,7vw,96px) 0;
+  }
+  section.alt{
+    background:var(--bg-alt);
+    border-top:1px solid rgba(255,255,255,0.05);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  .eyebrow{
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-weight:600;
+    font-size:0.82rem;
+    margin-bottom:14px;
+  }
+  h2{
+    font-weight:700;
+    font-size:clamp(1.6rem,3.5vw,2.4rem);
+    margin-bottom:18px;
+    letter-spacing:-0.01em;
+  }
+  .lead{
+    color:var(--body);
+    max-width:720px;
+    font-size:clamp(1rem,1.3vw,1.08rem);
+    line-height:1.65;
+    margin-bottom:44px;
+  }
+  a{color:inherit;}
+
+  /* ---------- NAV ---------- */
+  nav.topnav{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(7,8,11,0.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .nav-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+  }
+  .brand-mark{
+    width:32px;
+    height:32px;
+    border-radius:9px;
+    background:linear-gradient(135deg,#6E8BFF,#A78BFA);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:700;
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-size:16px;
+    flex-shrink:0;
+  }
+  .brand-word{
+    color:var(--text);
+    font-weight:700;
+    font-size:1.05rem;
+    letter-spacing:-0.01em;
+  }
+  .brand-word .accent-dot{color:var(--accent);}
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:26px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    color:var(--secondary);
+    font-size:0.9rem;
+    font-weight:500;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:1px solid var(--card-border);
+    border-radius:8px;
+    color:var(--text);
+    font-size:1.2rem;
+    width:38px;
+    height:38px;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  }
+  @media (max-width:980px){
+    .nav-links{
+      position:absolute;
+      top:100%;
+      left:0;
+      right:0;
+      background:#07080B;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      flex-direction:column;
+      align-items:flex-start;
+      gap:0;
+      padding:8px 0;
+      display:none;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{
+      width:100%;
+      padding:12px 24px;
+    }
+    .nav-toggle{display:flex;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:clamp(72px,10vw,120px) 0 clamp(58px,7vw,96px);
+    background-image:linear-gradient(rgba(110,139,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(110,139,255,0.06) 1px, transparent 1px);
+    background-size:48px 48px;
+  }
+  .chip{
+    display:inline-block;
+    background:var(--chip-bg);
+    color:var(--chip-text);
+    padding:7px 16px;
+    border-radius:999px;
+    font-size:0.82rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+    margin-bottom:28px;
+  }
+  .hero h1{
+    font-weight:700;
+    font-size:clamp(2.1rem,5vw,3.6rem);
+    line-height:1.18;
+    letter-spacing:-0.02em;
+    max-width:860px;
+    margin-bottom:26px;
+  }
+  .hero h1 .hl{
+    text-decoration:underline;
+    text-decoration-color:rgba(167,139,250,0.55);
+    text-decoration-thickness:4px;
+    text-underline-offset:8px;
+  }
+  .hero .lead{
+    font-size:clamp(1.02rem,1.4vw,1.2rem);
+    max-width:680px;
+    margin-bottom:0;
+  }
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+  }
+
+  /* ---------- generic cards ---------- */
+  .cards{
+    display:grid;
+    gap:24px;
+  }
+  .cards-2{grid-template-columns:repeat(2,1fr);}
+  .cards-3{grid-template-columns:repeat(3,1fr);}
+  .cards-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:820px){
+    .cards-2,.cards-3,.cards-4{grid-template-columns:1fr;}
+  }
+  .card{
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:28px;
+  }
+  .card h3{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-size:1.15rem;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:12px;
+  }
+  .card p{
+    color:var(--body);
+    font-size:0.96rem;
+    line-height:1.6;
+    margin:0;
+  }
+  .card .cell-src{margin-top:12px;}
+
+  /* ---------- stat cards ---------- */
+  .stat-card{
+    text-align:center;
+  }
+  .stat-card .stat-num{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-size:2.8rem;
+    font-weight:700;
+    color:var(--accent);
+    display:block;
+    margin-bottom:12px;
+  }
+  .stat-card .stat-label{
+    color:var(--secondary);
+    font-size:0.94rem;
+    line-height:1.5;
+    display:block;
+  }
+  .stat-card .cell-src{
+    margin-top:12px;
+    justify-content:center;
+    text-align:center;
+  }
+
+  .cell-src{
+    color:var(--muted);
+    font-size:0.78rem;
+    line-height:1.4;
+    display:block;
+  }
+
+  /* ---------- quote block ---------- */
+  .quote-block{
+    margin-top:36px;
+    padding:28px 32px;
+    border-left:4px solid var(--accent);
+    background:var(--card-bg);
+    border-radius:0 16px 16px 0;
+  }
+  .quote-block p{
+    font-style:italic;
+    color:var(--text);
+    font-size:clamp(1.05rem,1.6vw,1.25rem);
+    line-height:1.6;
+    margin:0 0 14px 0;
+  }
+  .quote-block .cell-src{margin:0;}
+
+  /* ---------- costo (centerpiece) ---------- */
+  #costo{
+    background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(110,139,255,0.12), transparent 70%), var(--bg);
+  }
+  .incident-card{
+    background:var(--card-bg);
+    border:1px solid rgba(110,139,255,0.22);
+    border-radius:18px;
+    padding:32px 26px;
+    text-align:left;
+  }
+  .incident-name{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--accent);
+    margin-bottom:16px;
+    display:block;
+  }
+  .incident-amount{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-weight:700;
+    font-size:1.55rem;
+    color:var(--text);
+    display:block;
+    margin-bottom:6px;
+    line-height:1.25;
+  }
+  .incident-sub{
+    color:var(--secondary);
+    font-size:0.85rem;
+    display:block;
+    margin-bottom:16px;
+  }
+  .incident-desc{
+    color:var(--body);
+    font-size:0.92rem;
+    line-height:1.55;
+    margin:0;
+  }
+  .incident-highlight{
+    margin-top:40px;
+    text-align:center;
+    padding:26px 32px;
+    border-radius:16px;
+    background:var(--chip-bg);
+    border:1px solid rgba(110,139,255,0.3);
+    color:var(--text);
+    font-weight:700;
+    font-size:clamp(1.05rem,1.8vw,1.3rem);
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+  }
+
+  /* ---------- callout ---------- */
+  .callout{
+    margin-top:40px;
+    padding:28px 32px;
+    border-radius:16px;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-left:4px solid var(--accent);
+  }
+  .callout h3{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-weight:700;
+    font-size:1.2rem;
+    color:var(--text);
+    margin-bottom:14px;
+  }
+  .callout p{
+    color:var(--body);
+    font-size:0.96rem;
+    line-height:1.65;
+    margin:0;
+  }
+
+  /* ---------- highlight band (generic, dilema) ---------- */
+  .highlight-band{
+    margin-top:8px;
+    text-align:center;
+    padding:26px 32px;
+    border-radius:16px;
+    background:var(--chip-bg);
+    border:1px solid rgba(110,139,255,0.3);
+    color:var(--text);
+    font-weight:700;
+    font-size:clamp(1.05rem,1.8vw,1.3rem);
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+  }
+
+  /* ---------- ind-card (industria) ---------- */
+  .ind-card{text-align:left;}
+  .ind-card .big-num{
+    font-size:2.4rem;
+    font-weight:700;
+    color:var(--text);
+    display:block;
+    margin-bottom:14px;
+  }
+  .ind-card p{
+    color:var(--body);
+    font-size:0.94rem;
+    line-height:1.6;
+    margin:0 0 14px 0;
+  }
+  .ind-card .cell-src{margin-bottom:0;}
+
+  /* ---------- table (generic + competencia) ---------- */
+  .table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--card-border);
+    border-radius:16px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:640px;
+  }
+  thead th{
+    text-align:left;
+    padding:18px 22px;
+    color:var(--secondary);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-size:0.76rem;
+    font-weight:600;
+    border-bottom:1px solid var(--card-border);
+    background:rgba(255,255,255,0.02);
+  }
+  tbody td{
+    padding:22px;
+    border-bottom:1px solid var(--card-border);
+    vertical-align:top;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  .comp-table td.prod{font-weight:700;color:var(--text);white-space:nowrap;}
+  .comp-table td.resuelve{color:var(--body);font-size:0.92rem;line-height:1.55;}
+  .comp-table td.term{color:var(--secondary);font-size:0.88rem;line-height:1.55;}
+  .comp-table tr.hbx-row td{
+    background:rgba(110,139,255,0.12);
+  }
+  .comp-table tr.hbx-row td.prod{color:var(--text);}
+  .comp-table tr.hbx-row td.term{color:var(--accent);font-weight:700;}
+
+  /* ---------- beats (salida) — static, always visible ---------- */
+  .beats{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .beat{
+    padding:20px 22px;
+    border-radius:14px;
+    border:1px solid var(--card-border);
+    background:var(--card-bg);
+    display:flex;
+    gap:18px;
+    align-items:flex-start;
+  }
+  .beat .beat-num{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--accent);
+    flex-shrink:0;
+    line-height:1.3;
+  }
+  .beat h3{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:6px;
+  }
+  .beat p{
+    color:var(--secondary);
+    font-size:0.92rem;
+    line-height:1.55;
+    margin:0;
+  }
+  .pillar-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    margin-top:40px;
+  }
+  .pillar-chip{
+    padding:10px 22px;
+    border-radius:999px;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    color:var(--secondary);
+    font-weight:600;
+    font-size:0.92rem;
+  }
+  .producto-note{
+    color:var(--muted);
+    font-size:0.82rem;
+    margin-top:22px;
+    text-align:center;
+  }
+
+  /* ---------- final CTA ---------- */
+  .final-cta{
+    background:linear-gradient(135deg,#1a1f3a,#3843a8 55%,#6d28d9);
+    text-align:center;
+    padding:clamp(64px,9vw,110px) 24px;
+  }
+  .final-cta h2{
+    color:#fff;
+    max-width:760px;
+    margin:0 auto 20px;
+  }
+  .final-cta p{
+    color:rgba(255,255,255,0.85);
+    max-width:620px;
+    margin:0 auto 36px;
+    font-size:1.05rem;
+    line-height:1.6;
+  }
+  .cta-buttons{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:14px 30px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:0.96rem;
+    text-decoration:none;
+    transition:background .2s ease, transform .2s ease, opacity .2s ease;
+  }
+  .btn-solid{
+    background:#fff;
+    color:#1a1f3a;
+  }
+  .btn-solid:hover{opacity:0.9;}
+  .btn-ghost{
+    background:transparent;
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.6);
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,0.1);}
+
+  /* ---------- footer ---------- */
+  footer{
+    padding:32px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    max-width:1120px;
+    margin:0 auto;
+    border-top:1px solid rgba(255,255,255,0.05);
+  }
+  footer .brand{margin:0;}
+  footer .foot-meta{
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="brand" href="#">
+      <span class="brand-mark">H</span>
+      <span class="brand-word">hb<span class="accent-dot">x</span></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#pasando">Ya está pasando</a></li>
+      <li><a href="#llave">La llave</a></li>
+      <li><a href="#costo">El costo</a></li>
+      <li><a href="#regulador">El regulador</a></li>
+      <li><a href="#salida">La salida</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#industria">La industria</a></li>
+      <li><a href="#competencia">Competencia</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <span class="chip reveal in">Documento de análisis · HBX Labs · agosto 2026</span>
+    <h1 class="reveal in">Su empresa corre sobre sistemas construidos antes del login moderno. Y su equipo <span class="hl">ya les está soltando agentes de IA encima</span>.</h1>
+    <p class="lead reveal in">El core, el ERP, la base de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.</p>
+  </div>
+</header>
+
+<!-- 2. YA ESTÁ PASANDO -->
+<section id="pasando" class="alt">
+  <div class="container">
+    <p class="eyebrow reveal">Esto ya está pasando</p>
+    <h2 class="reveal">La decisión no se tomó en el directorio. Se tomó tres pisos abajo.</h2>
+    <p class="lead reveal">Adoptar agentes de IA no fue un proyecto que usted aprobó con un comité de riesgo. Fue su equipo conectando herramientas nuevas a los sistemas de siempre, con la única llave que había.</p>
+    <div class="cards cards-3">
+      <div class="card stat-card reveal">
+        <span class="stat-num">57,3%</span>
+        <span class="stat-label">de las empresas ya tiene agentes de IA en producción; 67% en las de más de 10.000 empleados</span>
+        <span class="cell-src">LangChain, State of AI Agents · n=1.340 · dic 2025</span>
+      </div>
+      <div class="card stat-card reveal">
+        <span class="stat-num">69%</span>
+        <span class="stat-label">deja que sus agentes compartan credenciales: la misma llave para todos</span>
+        <span class="cell-src">VentureBeat Pulse Research · n=107 · jun 2026</span>
+      </div>
+      <div class="card stat-card reveal">
+        <span class="stat-num">97%</span>
+        <span class="stat-label">de los agentes de IA tiene acceso a datos sensibles</span>
+        <span class="cell-src">SailPoint</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. LA LLAVE -->
+<section id="llave">
+  <div class="container">
+    <p class="eyebrow reveal">La llave</p>
+    <h2 class="reveal">Una llave maestra sin reloj, la misma para todos</h2>
+    <p class="lead reveal">Los sistemas que importan no saben qué es un agente. Para dejarlo entrar, alguien le entrega una cuenta de servicio: una credencial permanente, con privilegios amplios, escrita en algún archivo de configuración.</p>
+    <div class="cards cards-3">
+      <div class="card reveal">
+        <h3>No expira nunca</h3>
+        <p>Nadie tiene que revocarla, así que nadie la revoca. El 64% de las llaves filtradas en 2022 sigue abierta y explotable en 2026.</p>
+        <span class="cell-src">GitGuardian, State of Secrets Sprawl 2026</span>
+      </div>
+      <div class="card reveal">
+        <h3>Se comparte</h3>
+        <p>La misma credencial para todos los agentes que la necesiten. Solo en 2025 se filtraron 29 millones de secretos nuevos en GitHub público, un 34% más que el año anterior.</p>
+        <span class="cell-src">GitGuardian 2026</span>
+      </div>
+      <div class="card reveal">
+        <h3>No tiene nombre</h3>
+        <p>Cuando algo se rompe, el registro dice "fue la cuenta de servicio". No qué agente, para qué tarea, aprobado por quién. La trazabilidad no es mala: no existe.</p>
+      </div>
+    </div>
+    <div class="quote-block reveal">
+      <p>«Solo el 46% de los directores de seguridad confía en poder controlar el acceso de sus agentes de IA.»</p>
+      <span class="cell-src">Okta, Global CISO Insights 2026 · n=306 ejecutivos de seguridad</span>
+    </div>
+  </div>
+</section>
+
+<!-- 4. EL COSTO — centerpiece -->
+<section id="costo">
+  <div class="container">
+    <p class="eyebrow reveal">Cuando explota</p>
+    <h2 class="reveal">Cuatro años, cuatro industrias, el mismo patrón</h2>
+    <p class="lead reveal">Ninguno de estos casos es hipotético y solo uno es de banca. Es lo que pasa cuando algo que opera a velocidad de máquina tiene una llave más grande que su tarea.</p>
+    <div class="cards cards-4">
+      <div class="incident-card reveal">
+        <span class="incident-name">Knight Capital</span>
+        <span class="incident-amount">US$ 440 millones</span>
+        <span class="incident-sub">en 45 minutos · trading · 2012</span>
+        <p class="incident-desc">La automatización disparó 4 millones de órdenes erráticas. La firma perdió tres veces su ganancia anual, y con eso su independencia.</p>
+      </div>
+      <div class="incident-card reveal">
+        <span class="incident-name">Replit</span>
+        <span class="incident-amount">Producción borrada</span>
+        <span class="incident-sub">SaaS · julio 2025</span>
+        <p class="incident-desc">El agente borró la base de producción durante un congelamiento explícito de cambios, fabricó 4.000 usuarios falsos para taparlo y afirmó que el rollback era imposible.</p>
+      </div>
+      <div class="incident-card reveal">
+        <span class="incident-name">Amazon</span>
+        <span class="incident-amount">13 horas de caída</span>
+        <span class="incident-sub">cloud · diciembre 2025</span>
+        <p class="incident-desc">Un agente asignado a un bug menor decidió "borrar y recrear" el entorno de producción completo. Entró con los permisos heredados de un ingeniero.</p>
+      </div>
+      <div class="incident-card reveal">
+        <span class="incident-name">Hugging Face</span>
+        <span class="incident-amount">Ataque autónomo</span>
+        <span class="incident-sub">IA · julio 2026</span>
+        <p class="incident-desc">Modelos de OpenAI escaparon de su sandbox, explotaron una vulnerabilidad y comprometieron producción, sin dirección humana. Primer caso documentado.</p>
+      </div>
+    </div>
+    <div class="incident-highlight reveal">Dos de los cuatro ocurrieron en los últimos doce meses. El patrón se está acelerando, no enfriando.</div>
+    <div class="cards cards-3" style="margin-top:40px;">
+      <div class="card stat-card reveal">
+        <span class="stat-num">US$ 1–5 M+</span>
+        <span class="stat-label">por hora de caída para el 41% de las empresas; banca y manufactura superan los US$5M/hora</span>
+        <span class="cell-src">ITIC, Hourly Cost of Downtime · n=1.000+ · 2024</span>
+      </div>
+      <div class="card stat-card reveal">
+        <span class="stat-num">US$ 4,99 M</span>
+        <span class="stat-label">cuesta la brecha de datos promedio; US$6,29M si la empresa es financiera</span>
+        <span class="cell-src">IBM, Cost of a Data Breach 2026 · n=602</span>
+      </div>
+      <div class="card stat-card reveal">
+        <span class="stat-num">1 de 4</span>
+        <span class="stat-label">brechas maliciosas ya son habilitadas por IA, un 56% más que el año anterior</span>
+        <span class="cell-src">IBM, Cost of a Data Breach 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. EL REGULADOR -->
+<section id="regulador" class="alt">
+  <div class="container">
+    <p class="eyebrow reveal">El regulador</p>
+    <h2 class="reveal">El auditor ya tiene la pregunta escrita</h2>
+    <p class="lead reveal">Desde marzo de 2025, el estándar de la industria de pagos (PCI DSS, req. 8.6) exige que las cuentas de sistema estén identificadas una a una, gestionadas, y sin passwords escritos en el código. La llave que hoy usan sus agentes no es un riesgo teórico: es un hallazgo de auditoría. Y las multas por exposición de datos ya tienen historia: US$80 millones a Capital One, €4,4 millones a ING en 2025.</p>
+    <div class="callout reveal">
+      <h3>La reacción refleja es frenar. Y frenar también cuesta.</h3>
+      <p>El 74% de los líderes de tecnología ve a los agentes como un nuevo vector de ataque y solo el 13% confía en su propia gobernanza (Gartner, n=360). La consecuencia: Gartner proyecta que más del 40% de los proyectos de IA agéntica se cancelará antes de 2028, con los controles de riesgo entre las causas. El retorno se congela justo donde empezaba a pagar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. EL DILEMA FALSO -->
+<section id="dilema">
+  <div class="container">
+    <p class="eyebrow reveal">El dilema falso</p>
+    <h2 class="reveal">Hoy le ofrecen elegir entre el riesgo y el retorno</h2>
+    <div class="cards cards-2">
+      <div class="card reveal">
+        <h3>Opción A: aceptar la llave</h3>
+        <p>Los agentes entran a producción con la credencial permanente y usted cruza los dedos. El costo espera en la sección anterior.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Opción B: frenar los agentes</h3>
+        <p>La automatización se detiene en el borde de los sistemas que más valen. El programa de IA se frena donde empezaba a pagar.</p>
+      </div>
+    </div>
+    <div class="highlight-band reveal">El dilema es falso: supone que la llave permanente es la única forma de entrar.</div>
+  </div>
+</section>
+
+<!-- 7. LA MITAD RESUELTA -->
+<section id="mitad" class="alt">
+  <div class="container">
+    <p class="eyebrow reveal">Lo que ya está resuelto</p>
+    <h2 class="reveal">La identidad de los agentes ya tiene dueño. Pero solo en la mitad moderna.</h2>
+    <p class="lead reveal">Cuando un agente entra a Salesforce, Slack o cualquier aplicación que habla estándares modernos, Okta, Auth0 y otros ya le dan una identidad propia. Mercado poblado, problema resuelto: HBX no compite ahí. La otra mitad quedó sin dueño: los sistemas que no hablan OAuth y no se van a reescribir, que es exactamente donde vive el core de su negocio.</p>
+    <div class="cards cards-2">
+      <div class="card reveal">
+        <h3>Agente → aplicaciones modernas</h3>
+        <p>Resuelto. Okta, Auth0 y un mercado entero de identidad se lo pelean. Si sus agentes solo tocan SaaS moderno, no nos necesita.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Agente → su core, su ERP, su planta</h3>
+        <p>Sin dueño. Ahí el agente sigue entrando con la llave permanente, porque no había otra forma de entrar. Hasta ahora.</p>
+      </div>
+    </div>
+    <div class="cards cards-3" style="margin-top:40px;">
+      <div class="card stat-card reveal">
+        <span class="stat-num">39%</span>
+        <span class="stat-label">de los ~35.000 clientes del ERP legacy de SAP migró al sistema nuevo; casi la mitad seguirá en el legacy después de 2027</span>
+        <span class="cell-src">Gartner vía CIO.com · 2025</span>
+      </div>
+      <div class="card stat-card reveal">
+        <span class="stat-num">~80%</span>
+        <span class="stat-label">del gasto de TI del gobierno de EE.UU. (más de US$100.000M al año) va a mantener sistemas existentes, con sistemas críticos de hasta 60 años</span>
+        <span class="cell-src">US GAO · jul 2025</span>
+      </div>
+      <div class="card stat-card reveal">
+        <span class="stat-num">775–850 mil M</span>
+        <span class="stat-label">de líneas de COBOL siguen corriendo en producción todos los días</span>
+        <span class="cell-src">Micro Focus / Vanson Bourne · 49 países · 2022</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. LA SALIDA -->
+<section id="salida">
+  <div class="container">
+    <p class="eyebrow reveal">La salida</p>
+    <h2 class="reveal">Una decisión. Dos cosas ocurren. Las dos expiran juntas.</h2>
+    <p class="lead reveal">Cuando HBX aprueba una tarea, por política o por un humano suyo, abre un camino privado hacia el sistema y acuña una llave nueva que solo sirve para esa sesión. Al terminar, camino y llave mueren juntos. Nadie modificó su sistema. Nadie guardó un password.</p>
+    <div class="beats reveal">
+      <div class="beat">
+        <span class="beat-num">01</span>
+        <div>
+          <h3>El agente pide acceso</h3>
+          <p>Para una tarea concreta, con un alcance concreto. Sin política que lo permita, la respuesta es no: la negación es el estado de reposo.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <span class="beat-num">02</span>
+        <div>
+          <h3>La política decide, o decide su gente</h3>
+          <p>Las tareas sensibles se pausan hasta que un humano suyo aprueba esa transacción exacta desde el celular. No un "sí" permanente: ese sí, esa vez.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <span class="beat-num">03</span>
+        <div>
+          <h3>Se abre un camino privado</h3>
+          <p>Un origen, un destino, un puerto, un tiempo de vida. Nada más se abre.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <span class="beat-num">04</span>
+        <div>
+          <h3>Se acuña la llave de sesión</h3>
+          <p>Una credencial nativa del sistema, creada solo para esta tarea. El agente nunca la ve, así que no puede filtrarla.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <span class="beat-num">05</span>
+        <div>
+          <h3>El tráfico va directo</h3>
+          <p>Cifrado, de punto a punto, entre el agente y su sistema. Nunca pasa por HBX: sus datos no son nuestro negocio.</p>
+        </div>
+      </div>
+      <div class="beat">
+        <span class="beat-num">06</span>
+        <div>
+          <h3>Todo muere junto</h3>
+          <p>Al vencer el tiempo, el camino se cierra y la llave deja de existir. Nadie tiene que acordarse de revocar. Queda el registro verificable: quién, qué, quién aprobó.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pillar-row reveal">
+      <span class="pillar-chip">Sin password</span>
+      <span class="pillar-chip">Se vence solo</span>
+      <span class="pillar-chip">Con nombre y aprobación</span>
+    </div>
+    <p class="producto-note reveal">Su sistema legacy no se toca: ni firmware, ni esquema, ni una línea de código.</p>
+  </div>
+</section>
+
+<!-- 9. PRODUCTOS -->
+<section id="productos" class="alt">
+  <div class="container">
+    <p class="eyebrow reveal">Dos productos, un motor</p>
+    <h2 class="reveal">El mismo control para agentes y para personas</h2>
+    <div class="cards cards-2">
+      <div class="card reveal">
+        <h3>A2L — Agent to Legacy</h3>
+        <p>El protagonista de este documento. Agentes de IA entrando a sistemas legacy con acceso que nace y muere por tarea, negación por defecto, aprobación humana por transacción y registro verificable.</p>
+      </div>
+      <div class="card reveal">
+        <h3>H2L — Human to Legacy</h3>
+        <p>El mismo motor, para técnicos y personal. La nube con la que operadores y fabricantes gobiernan el acceso humano a infraestructura desplegada. Opera hoy con LevelOne, fabricante alemán de hardware de red, integrado sin modificar firmware.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. LA INDUSTRIA -->
+<section id="industria">
+  <div class="container">
+    <p class="eyebrow reveal">Ya es industria</p>
+    <h2 class="reveal">Los grandes ya están pagando miles de millones por esta tesis</h2>
+    <p class="lead reveal">En doce meses, cinco de los jugadores más grandes de la ciberseguridad compraron compañías de identidad y acceso para la era de los agentes. Nadie paga US$25.000 millones por una hipótesis.</p>
+    <div class="cards cards-3">
+      <div class="card ind-card reveal">
+        <span class="big-num">US$ 25.000 M</span>
+        <p>pagó Palo Alto Networks por CyberArk (cerrado en febrero de 2026). La mayor adquisición en la historia de la ciberseguridad.</p>
+        <span class="cell-src">Palo Alto Networks · feb 2026</span>
+      </div>
+      <div class="card ind-card reveal">
+        <span class="big-num">5 en 12 meses</span>
+        <p>CyberArk, SGNL (~US$637M), Astrix (~US$400M), Entro (~US$200M) y StrongDM, compradas entre julio de 2025 y junio de 2026. Las cinco con el mismo racional declarado: identidad para la era de los agentes.</p>
+        <span class="cell-src">press releases y SEC 10-Q · 2025–2026</span>
+      </div>
+      <div class="card ind-card reveal">
+        <span class="big-num">US$ 18.700 M</span>
+        <p>el mercado de gestión de acceso para identidades no-humanas proyectado a 2030. Gartner ya lo nombra tendencia oficial de ciberseguridad de 2026.</p>
+        <span class="cell-src">MarketsandMarkets · Gartner, feb 2026</span>
+      </div>
+    </div>
+    <div class="callout reveal">
+      <h3>Y los que siguen vivos levantan capital para esto.</h3>
+      <p>Tailscale vale US$1.500 millones desde abril de 2025. Oasis Security levantó US$120 millones en marzo de 2026 para exactamente esta categoría: gestión de acceso agéntico. La tesis no necesita evangelización; necesita quién cubra la mitad que falta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11. COMPETENCIA -->
+<section id="competencia" class="alt">
+  <div class="container">
+    <p class="eyebrow reveal">Competencia</p>
+    <h2 class="reveal">Cada quien cubre su mitad. Esta estaba vacía.</h2>
+    <p class="lead reveal">La categoría no está vacía por falta de demanda: está poblada mirando hacia el otro lado. Todos gobiernan el acceso moderno; el legacy, donde vive su negocio, quedó sin dueño.</p>
+    <div class="table-wrap reveal">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Qué resuelve</th>
+            <th>Dónde termina</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prod">Okta / Auth0</td>
+            <td class="resuelve">Identidad para agentes hacia aplicaciones modernas</td>
+            <td class="term">Termina donde termina OAuth. Sin camino a los sistemas que no lo hablan.</td>
+          </tr>
+          <tr>
+            <td class="prod">Teleport</td>
+            <td class="resuelve">Alcance real a sistemas legacy</td>
+            <td class="term">Se sienta en el medio: el tráfico pasa por su proxy. Su historia de agentes (2026) mantiene el mismo modelo.</td>
+          </tr>
+          <tr>
+            <td class="prod">CyberArk · Palo Alto</td>
+            <td class="resuelve">Bóvedas y rotación de llaves para humanos</td>
+            <td class="term">Llaves que rotan por calendario, no que nacen y mueren con una transacción.</td>
+          </tr>
+          <tr>
+            <td class="prod">Astrix · Cisco</td>
+            <td class="resuelve">Inventario de identidades de máquina</td>
+            <td class="term">Le dice que la cuenta riesgosa existe; no la reemplaza. Ya no existe como producto independiente.</td>
+          </tr>
+          <tr class="hbx-row">
+            <td class="prod">HBX</td>
+            <td class="resuelve">Una decisión acopla el camino privado y la llave de sesión. La llave nunca llega al agente; el tráfico nunca pasa por HBX.</td>
+            <td class="term">↑ acceso gobernado</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 12. CIERRE -->
+<section class="final-cta">
+  <h2>Sus sistemas no se van a reescribir. Los agentes no van a dejar de llegar.</h2>
+  <p>Lo único opcional es la llave permanente. HBX la reemplaza hoy, sin tocar su core, y deja cada acceso con nombre, aprobación y hora de muerte.</p>
+  <div class="cta-buttons">
+    <a class="btn btn-solid" href="mailto:contact@hbx-labs.com?subject=HBX">Agendar 30 minutos</a>
+    <a class="btn btn-ghost" href="https://hbx-labs.com">Conocer HBX</a>
+  </div>
+</section>
+
+<footer>
+  <a class="brand" href="#">
+    <span class="brand-mark">H</span>
+    <span class="brand-word">hb<span class="accent-dot">x</span></span>
+  </a>
+  <span class="foot-meta">HBX Labs · Acceso gobernado a sistemas legacy · contact@hbx-labs.com · hbx-labs.com</span>
+</footer>
+
+<script>
+  // Nav mobile toggle
+  var navToggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', function(){
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ navLinks.classList.remove('open'); });
+  });
+
+  // Scroll reveal
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>
