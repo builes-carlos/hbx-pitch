@@ -388,6 +388,31 @@
     font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
   }
 
+  /* ---------- chart (pasando) ---------- */
+  .chart-card{
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:26px 28px 20px;
+    margin-bottom:24px;
+  }
+  .chart-card h3{
+    font-family:'Space Grotesk','Hanken Grotesk',system-ui,sans-serif;
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--text);
+    margin:0 0 2px;
+  }
+  .chart-card svg{width:100%;height:auto;display:block;margin-top:10px;}
+  .chart-card .cell-src{display:block;margin-top:6px;}
+  .chart-note{display:none;margin:10px 0 0;font-size:0.92rem;}
+  .chart-note b{color:var(--accent);font-weight:600;}
+  .chart-note span{color:var(--muted);font-size:0.82rem;}
+  @media (max-width:640px){
+    .chart-annotation{display:none;}
+    .chart-note{display:block;}
+  }
+
   /* ---------- ind-card (industria) ---------- */
   .ind-card{text-align:left;}
   .ind-card .big-num{
@@ -604,6 +629,35 @@
     <p class="eyebrow reveal">Esto ya está pasando</p>
     <h2 class="reveal">La decisión no se tomó en el directorio. Se tomó tres pisos abajo.</h2>
     <p class="lead reveal">Adoptar agentes de IA no fue un proyecto que usted aprobó con un comité de riesgo. Fue su equipo conectando herramientas nuevas a los sistemas de siempre, con la única llave que había.</p>
+    <div class="chart-card reveal">
+      <h3>Identidades de máquina por cada empleado humano</h3>
+      <svg viewBox="0 0 760 320" role="img" aria-labelledby="chart-title chart-desc">
+        <title id="chart-title">Identidades de máquina por cada empleado humano: más de 80 a 1 en 2025, 109 a 1 en 2026, con 85% más agentes de IA proyectados para los próximos 12 meses</title>
+        <desc id="chart-desc">Gráfica de columnas con dos barras (2025 y 2026) y una anotación de proyección.</desc>
+        <line x1="90" y1="270" x2="460" y2="270" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+        <g>
+          <title>2025: más de 80 identidades de máquina por empleado humano (CyberArk, n=2.600)</title>
+          <path d="M110,270 L110,120 Q110,116 114,116 L216,116 Q220,116 220,120 L220,270 Z" fill="#3D4F94"/>
+          <text x="165" y="98" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="24" fill="#cbd5e1">80+ : 1</text>
+          <text x="165" y="294" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="15" fill="#94a3b8">2025</text>
+        </g>
+        <g>
+          <title>2026: 109 identidades de máquina por empleado humano (Palo Alto Networks, n=2.930)</title>
+          <path d="M320,270 L320,64 Q320,60 324,60 L426,60 Q430,60 430,64 L430,270 Z" fill="#6E8BFF"/>
+          <text x="375" y="44" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="24" fill="#ffffff">109 : 1</text>
+          <text x="375" y="294" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="15" fill="#94a3b8">2026</text>
+        </g>
+        <g class="chart-annotation">
+          <path d="M446,52 C490,28 510,24 542,24" stroke="#6E8BFF" stroke-width="1.6" stroke-dasharray="5 5" fill="none"/>
+          <path d="M542,24 l-9,-5 v10 z" fill="#6E8BFF"/>
+          <text x="556" y="22" font-family="'Hanken Grotesk',sans-serif" font-weight="600" font-size="16" fill="#6E8BFF">+85% de agentes de IA</text>
+          <text x="556" y="42" font-family="'Hanken Grotesk',sans-serif" font-size="14" fill="#94a3b8">en los próximos 12 meses</text>
+          <text x="556" y="61" font-family="'Hanken Grotesk',sans-serif" font-size="12.5" fill="#64748b">proyección del mismo estudio</text>
+        </g>
+      </svg>
+      <p class="chart-note"><b>+85% de agentes de IA en los próximos 12 meses</b> <span>· proyección del mismo estudio</span></p>
+      <span class="cell-src">CyberArk, Identity Security Landscape 2025 (n=2.600) · Palo Alto Networks, Identity Security Landscape 2026 (n=2.930)</span>
+    </div>
     <div class="cards cards-3">
       <div class="card stat-card reveal">
         <span class="stat-num">57,3%</span>
@@ -792,7 +846,7 @@
         <span class="beat-num">02</span>
         <div>
           <h3>La política decide, o decide su gente</h3>
-          <p>Las tareas sensibles se pausan hasta que un humano suyo aprueba esa transacción exacta desde el celular. No un "sí" permanente: ese sí, esa vez.</p>
+          <p>Las tareas sensibles se pausan hasta que un humano suyo aprueba ese acceso exacto: este agente, este sistema, esta acción, estos minutos. No un "sí" permanente: ese sí, esa vez.</p>
         </div>
       </div>
       <div class="beat">
@@ -842,7 +896,7 @@
     <div class="cards cards-2">
       <div class="card reveal">
         <h3>A2L — el agente</h3>
-        <p>Donde el problema no tiene dueño y duele hoy: acceso que nace y muere por tarea, negación por defecto, aprobación humana por transacción.</p>
+        <p>Donde el problema no tiene dueño y duele hoy: acceso que nace y muere por tarea, negación por defecto, y aprobación humana solo donde su política la exige.</p>
       </div>
       <div class="card reveal">
         <h3>H2L — la persona</h3>
