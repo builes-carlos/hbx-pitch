@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="gate.js"></script>
 <title>HBX — Agentes de IA sobre sistemas legacy</title>
-<meta name="description" content="El core, el ERP, la base de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.">
+<meta name="description" content="El core, el ERP, la base de datos de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno de ellos lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -618,8 +618,8 @@
 <header class="hero">
   <div class="container">
     <span class="chip reveal in">Documento de análisis · HBX Labs · agosto 2026</span>
-    <h1 class="reveal in">Su empresa corre sobre sistemas construidos antes del login moderno. Y su equipo <span class="hl">ya les está soltando agentes de IA encima</span>.</h1>
-    <p class="lead reveal in">El core, el ERP, la base de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.</p>
+    <h1 class="reveal in">Su empresa opera sobre sistemas construidos antes del login moderno. Y su equipo <span class="hl">ya está conectando agentes de IA a esos sistemas</span>.</h1>
+    <p class="lead reveal in">El core, el ERP, la base de datos de producción: hablan SQL, LDAP o un protocolo propietario, no OAuth. Cada agente de IA que hoy entra a uno de ellos lo hace con una llave permanente, compartida, que no dice quién la usó. HBX la reemplaza por acceso que nace para una tarea y muere cuando termina, sin tocar sus sistemas.</p>
   </div>
 </header>
 
@@ -628,7 +628,7 @@
   <div class="container">
     <p class="eyebrow reveal">Esto ya está pasando</p>
     <h2 class="reveal">La decisión no se tomó en el directorio. Se tomó tres pisos abajo.</h2>
-    <p class="lead reveal">Adoptar agentes de IA no fue un proyecto que usted aprobó con un comité de riesgo. Fue su equipo conectando herramientas nuevas a los sistemas de siempre, con la única llave que había.</p>
+    <p class="lead reveal">Adoptar agentes de IA no fue un proyecto que usted aprobó con un comité de riesgo. Fue su equipo, conectando herramientas nuevas a los sistemas de siempre, con la única llave que había.</p>
     <div class="chart-card reveal">
       <h3>Identidades de máquina por cada empleado humano</h3>
       <svg viewBox="0 0 760 320" role="img" aria-labelledby="chart-title chart-desc">
@@ -739,7 +739,7 @@
         <p class="incident-desc">Modelos de OpenAI escaparon de su sandbox, explotaron una vulnerabilidad y comprometieron producción, sin dirección humana. Primer caso documentado.</p>
       </div>
     </div>
-    <div class="incident-highlight reveal">Dos de los cuatro ocurrieron en los últimos doce meses. El patrón se está acelerando, no enfriando.</div>
+    <div class="incident-highlight reveal">Dos de los cuatro ocurrieron en los últimos doce meses. El ritmo sube, no baja.</div>
     <div class="cards cards-3" style="margin-top:40px;">
       <div class="card stat-card reveal">
         <span class="stat-num">US$ 1–5 M+</span>
@@ -765,7 +765,7 @@
   <div class="container">
     <p class="eyebrow reveal">El regulador</p>
     <h2 class="reveal">El auditor ya tiene la pregunta escrita</h2>
-    <p class="lead reveal">Desde marzo de 2025, el estándar de la industria de pagos (PCI DSS, req. 8.6) exige que las cuentas de sistema estén identificadas una a una, gestionadas, y sin passwords escritos en el código. La llave que hoy usan sus agentes no es un riesgo teórico: es un hallazgo de auditoría. Y las multas por exposición de datos ya tienen historia: US$80 millones a Capital One, €4,4 millones a ING en 2025.</p>
+    <p class="lead reveal">Desde marzo de 2025, el estándar de la industria de pagos (PCI DSS, req. 8.6) exige que las cuentas de sistema estén identificadas una a una, gestionadas, y sin contraseñas escritas en el código. La llave que hoy usan sus agentes no es un riesgo teórico: es un hallazgo de auditoría. Y las multas por exposición de datos ya tienen historia: US$80 millones a Capital One, €4,4 millones a ING en 2025.</p>
     <div class="callout reveal">
       <h3>La reacción refleja es frenar. Y frenar también cuesta.</h3>
       <p>El 74% de los líderes de tecnología ve a los agentes como un nuevo vector de ataque y solo el 13% confía en su propia gobernanza (Gartner, n=360). La consecuencia: Gartner proyecta que más del 40% de los proyectos de IA agéntica se cancelará antes de 2028, con los controles de riesgo entre las causas. El retorno se congela justo donde empezaba a pagar.</p>
@@ -781,11 +781,11 @@
     <div class="cards cards-2">
       <div class="card reveal">
         <h3>Opción A: aceptar la llave</h3>
-        <p>Los agentes entran a producción con la credencial permanente y usted cruza los dedos. Arriba ya vio lo que cuesta cuando sale mal.</p>
+        <p>Los agentes entran a producción con la credencial permanente y la empresa asume el riesgo. El costo, cuando sale mal, ya quedó dimensionado arriba.</p>
       </div>
       <div class="card reveal">
         <h3>Opción B: frenar los agentes</h3>
-        <p>La automatización se detiene en el borde de los sistemas que más valen. El programa de IA se frena donde empezaba a pagar.</p>
+        <p>La automatización se detiene en el borde de los sistemas que más valen, y el programa de IA se queda en pilotos que no tocan el negocio real.</p>
       </div>
     </div>
     <div class="highlight-band reveal">El dilema es falso: supone que la llave permanente es la única forma de entrar.</div>
@@ -797,7 +797,7 @@
   <div class="container">
     <p class="eyebrow reveal">Lo que ya está resuelto</p>
     <h2 class="reveal">La identidad de los agentes ya tiene dueño. Pero solo en la mitad moderna.</h2>
-    <p class="lead reveal">Cuando un agente entra a Salesforce, Slack o cualquier aplicación que habla estándares modernos, Okta, Auth0 y otros ya le dan una identidad propia. Mercado poblado, problema resuelto: HBX no compite ahí. La otra mitad quedó sin dueño: los sistemas que no hablan OAuth y no se van a reescribir, que es exactamente donde vive el core de su negocio.</p>
+    <p class="lead reveal">Cuando un agente entra a Salesforce, Slack o cualquier aplicación que habla estándares modernos, Okta, Auth0 y otros ya le dan una identidad propia. Mercado poblado, problema resuelto: HBX no compite ahí. La otra mitad quedó sin dueño: los sistemas que no hablan OAuth y no se van a reescribir, que es exactamente donde está el core de su negocio.</p>
     <div class="cards cards-2">
       <div class="card reveal">
         <h3>Agente → aplicaciones modernas</h3>
@@ -821,7 +821,7 @@
       </div>
       <div class="card stat-card reveal">
         <span class="stat-num">775–850 mil M</span>
-        <span class="stat-label">de líneas de COBOL siguen corriendo en producción todos los días</span>
+        <span class="stat-label">de líneas de COBOL siguen en producción todos los días</span>
         <span class="cell-src">Micro Focus / Vanson Bourne · 49 países · 2022</span>
       </div>
     </div>
@@ -833,7 +833,42 @@
   <div class="container">
     <p class="eyebrow reveal">La salida</p>
     <h2 class="reveal">Una decisión. Dos cosas ocurren. Las dos expiran juntas.</h2>
-    <p class="lead reveal">Cuando HBX aprueba una tarea, por política o por un humano suyo, abre un camino privado hacia el sistema y acuña una llave nueva que solo sirve para esa sesión. Al terminar, camino y llave mueren juntos. Nadie modificó su sistema. Nadie guardó un password.</p>
+    <p class="lead reveal">Cuando HBX aprueba una tarea, por política o por una persona de su equipo, abre un camino privado hacia el sistema y acuña una llave nueva que solo sirve para esa sesión. Al terminar, camino y llave mueren juntos. Nadie modificó su sistema. Nadie guardó una contraseña.</p>
+    <div class="chart-card reveal">
+      <h3>HBX decide el acceso. Sus datos nunca pasan por HBX.</h3>
+      <svg viewBox="0 0 760 430" role="img" aria-labelledby="diag-title">
+        <title id="diag-title">Diagrama de dos planos: en el plano de control, HBX decide, aprueba y expira; en el plano de datos, el tráfico viaja cifrado y directo entre el agente y el sistema legacy, sin pasar por HBX.</title>
+        <text x="28" y="34" font-family="'Hanken Grotesk',sans-serif" font-size="12.5" letter-spacing="2" fill="#64748b">PLANO DE CONTROL</text>
+        <text x="28" y="262" font-family="'Hanken Grotesk',sans-serif" font-size="12.5" letter-spacing="2" fill="#64748b">PLANO DE DATOS</text>
+        <line x1="24" y1="228" x2="736" y2="228" stroke="rgba(255,255,255,0.14)" stroke-width="1.2" stroke-dasharray="3 6"/>
+
+        <rect x="280" y="56" width="200" height="104" rx="14" fill="rgba(110,139,255,0.10)" stroke="#6E8BFF" stroke-width="1.5"/>
+        <text x="380" y="100" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="21" fill="#ffffff">HBX</text>
+        <text x="380" y="128" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="14.5" fill="#94a3b8">decide · aprueba · expira</text>
+
+        <path d="M310,160 C250,205 190,245 152,296" stroke="#6E8BFF" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+        <path d="M152,296 l1,-11 l8,7 z" fill="#6E8BFF"/>
+        <text x="196" y="208" font-family="'Hanken Grotesk',sans-serif" font-size="14" fill="#8ea4ff" text-anchor="middle">autoriza el camino</text>
+
+        <path d="M450,160 C510,205 570,245 608,296" stroke="#6E8BFF" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+        <path d="M608,296 l-9,-7 l8,-4 z" fill="#6E8BFF"/>
+        <text x="568" y="208" font-family="'Hanken Grotesk',sans-serif" font-size="14" fill="#8ea4ff" text-anchor="middle">acuña la llave de sesión</text>
+
+        <rect x="64" y="300" width="176" height="82" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" stroke-width="1.3"/>
+        <text x="152" y="336" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">El agente</text>
+        <text x="152" y="360" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">o su técnico</text>
+
+        <rect x="520" y="300" width="176" height="82" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" stroke-width="1.3"/>
+        <text x="608" y="336" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">Su sistema legacy</text>
+        <text x="608" y="360" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">core · ERP · base de datos</text>
+
+        <line x1="248" y1="341" x2="512" y2="341" stroke="#34d399" stroke-width="3"/>
+        <path d="M512,341 l-11,-6 v12 z" fill="#34d399"/>
+        <path d="M248,341 l11,-6 v12 z" fill="#34d399"/>
+        <text x="380" y="330" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-weight="600" font-size="14.5" fill="#6ee7b7">túnel cifrado, de punto a punto</text>
+        <text x="380" y="414" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">sus datos viajan directo, nunca suben al plano de control</text>
+      </svg>
+    </div>
     <div class="beats reveal">
       <div class="beat">
         <span class="beat-num">01</span>
@@ -845,8 +880,8 @@
       <div class="beat">
         <span class="beat-num">02</span>
         <div>
-          <h3>La política decide, o decide su gente</h3>
-          <p>Las tareas sensibles se pausan hasta que un humano suyo aprueba ese acceso exacto: este agente, este sistema, esta acción, estos minutos. No un "sí" permanente: ese sí, esa vez.</p>
+          <h3>La política decide, o decide su equipo</h3>
+          <p>Las tareas sensibles se pausan hasta que una persona de su equipo aprueba ese acceso exacto: este agente, este sistema, esta acción, estos minutos. No un "sí" permanente: ese sí, esa vez.</p>
         </div>
       </div>
       <div class="beat">
@@ -879,7 +914,7 @@
       </div>
     </div>
     <div class="pillar-row reveal">
-      <span class="pillar-chip">Sin password</span>
+      <span class="pillar-chip">Sin contraseñas</span>
       <span class="pillar-chip">Se vence solo</span>
       <span class="pillar-chip">Con nombre y aprobación</span>
     </div>
@@ -896,11 +931,11 @@
     <div class="cards cards-2">
       <div class="card reveal">
         <h3>A2L — el agente</h3>
-        <p>Donde el problema no tiene dueño y duele hoy: acceso que nace y muere por tarea, negación por defecto, y aprobación humana solo donde su política la exige.</p>
+        <p>Donde el problema no tiene dueño y duele hoy: acceso que nace y muere por tarea, negación por defecto, y aprobación humana solo cuando su política la exige.</p>
       </div>
       <div class="card reveal">
         <h3>H2L — la persona</h3>
-        <p>El mismo contrato para su gente y sus proveedores: el técnico entra por el mismo camino gobernado, con la misma llave que se vence sola. Un solo modelo de acceso para todo lo que toca su legacy.</p>
+        <p>El mismo contrato para su equipo y sus proveedores: el técnico entra por el mismo camino gobernado, con la misma llave que se vence sola. Un solo modelo de acceso para todo lo que toca su legacy.</p>
       </div>
     </div>
     <div class="callout reveal">
@@ -915,7 +950,7 @@
   <div class="container">
     <p class="eyebrow reveal">Ya es industria</p>
     <h2 class="reveal">Los grandes ya están pagando miles de millones por resolver esto</h2>
-    <p class="lead reveal">Esto no es la apuesta exótica de una startup: es el problema por el que los más grandes ya están pagando. En doce meses, cinco de los jugadores más grandes de la ciberseguridad compraron compañías de identidad y acceso para la era de los agentes. Nadie paga US$25.000 millones por una hipótesis.</p>
+    <p class="lead reveal">Esto no es la apuesta exótica de una startup. En doce meses, cinco de los jugadores más grandes de la ciberseguridad compraron compañías de identidad y acceso para la era de los agentes. Nadie paga US$25.000 millones por una hipótesis.</p>
     <div class="cards cards-3">
       <div class="card ind-card reveal">
         <span class="big-num">US$ 25.000 M</span>
@@ -935,7 +970,7 @@
     </div>
     <div class="callout reveal">
       <h3>Y los que siguen vivos levantan capital para esto.</h3>
-      <p>Tailscale vale US$1.500 millones desde abril de 2025. Oasis Security levantó US$120 millones en marzo de 2026 para exactamente esta categoría: gestión de acceso agéntico. Y la OpenID Foundation ya corre un evento de interoperabilidad de seguridad para agentes presentado en el Gartner IAM Summit: la categoría hasta tiene su estándar en construcción. Todo ese capital está comprando la mitad moderna. La mitad donde vive su core sigue sin dueño.</p>
+      <p>Tailscale vale US$1.500 millones desde abril de 2025. Oasis Security levantó US$120 millones en marzo de 2026 para exactamente esta categoría: gestión de acceso agéntico. Y la OpenID Foundation ya organiza un evento de interoperabilidad de seguridad para agentes presentado en el Gartner IAM Summit: la categoría hasta tiene su estándar en construcción. Todo ese capital está comprando la mitad moderna. La otra mitad sigue sin dueño.</p>
     </div>
   </div>
 </section>
@@ -945,7 +980,7 @@
   <div class="container">
     <p class="eyebrow reveal">Competencia</p>
     <h2 class="reveal">Cada quien cubre su mitad. Esta estaba vacía.</h2>
-    <p class="lead reveal">Cuando le lleve esto a su equipo, le van a decir que ya tienen herramientas de acceso. Es cierto. Esta tabla es qué cubre cada una y dónde termina: todas gobiernan el acceso moderno; el legacy, donde vive su negocio, quedó sin dueño.</p>
+    <p class="lead reveal">Cuando lleve esto a su equipo, le dirán que ya cuentan con herramientas de acceso. Es cierto. Esta tabla muestra qué cubre cada una y dónde termina: todas gobiernan el acceso moderno; el legacy, donde vive su negocio, quedó sin dueño.</p>
     <div class="table-wrap reveal">
       <table class="comp-table">
         <thead>
@@ -964,7 +999,7 @@
           <tr>
             <td class="prod">Teleport</td>
             <td class="resuelve">Alcance real a sistemas legacy</td>
-            <td class="term">Se sienta en el medio: el tráfico pasa por su proxy. Su historia de agentes (2026) mantiene el mismo modelo.</td>
+            <td class="term">Se sienta en el medio: el tráfico pasa por su proxy. Su oferta para agentes (2026) mantiene el mismo modelo.</td>
           </tr>
           <tr>
             <td class="prod">CyberArk · Palo Alto</td>
@@ -990,7 +1025,7 @@
 <!-- 12. CIERRE -->
 <section class="final-cta">
   <h2>Sus sistemas no se van a reescribir. Los agentes no van a dejar de llegar.</h2>
-  <p>Lo único opcional es la llave permanente. HBX la reemplaza hoy, sin tocar su core, y deja cada acceso con nombre, aprobación y hora de muerte.</p>
+  <p>Lo único opcional es la llave permanente. HBX la reemplaza hoy, sin tocar su core, y deja cada acceso con nombre, aprobación y hora de expiración.</p>
   <div class="cta-buttons">
     <a class="btn btn-solid" href="mailto:contact@hbx-labs.com?subject=HBX">Agendar 30 minutos</a>
     <a class="btn btn-ghost" href="https://hbx-labs.com">Conocer HBX</a>
