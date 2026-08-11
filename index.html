@@ -405,6 +405,13 @@
   }
   .chart-card svg{width:100%;height:auto;display:block;margin-top:10px;}
   .chart-card .cell-src{display:block;margin-top:6px;}
+  .diagram-note{
+    color:var(--secondary);
+    font-size:0.92rem;
+    line-height:1.6;
+    margin:14px 0 0;
+    max-width:64ch;
+  }
   .chart-note{display:none;margin:10px 0 0;font-size:0.92rem;}
   .chart-note b{color:var(--accent);font-weight:600;}
   .chart-note span{color:var(--muted);font-size:0.82rem;}
@@ -836,38 +843,50 @@
     <p class="lead reveal">Cuando HBX aprueba una tarea, por política o por una persona de su equipo, abre un camino privado hacia el sistema y acuña una llave nueva que solo sirve para esa sesión. Al terminar, camino y llave mueren juntos. Nadie modificó su sistema. Nadie guardó una contraseña.</p>
     <div class="chart-card reveal">
       <h3>HBX decide el acceso. Sus datos nunca pasan por HBX.</h3>
-      <svg viewBox="0 0 760 430" role="img" aria-labelledby="diag-title">
-        <title id="diag-title">Diagrama de dos planos: en el plano de control, HBX decide, aprueba y expira; en el plano de datos, el tráfico viaja cifrado y directo entre el agente y el sistema legacy, sin pasar por HBX.</title>
-        <text x="28" y="34" font-family="'Hanken Grotesk',sans-serif" font-size="12.5" letter-spacing="2" fill="#64748b">PLANO DE CONTROL</text>
-        <text x="28" y="262" font-family="'Hanken Grotesk',sans-serif" font-size="12.5" letter-spacing="2" fill="#64748b">PLANO DE DATOS</text>
-        <line x1="24" y1="228" x2="736" y2="228" stroke="rgba(255,255,255,0.14)" stroke-width="1.2" stroke-dasharray="3 6"/>
+      <svg viewBox="0 0 860 460" role="img" aria-labelledby="diag-title">
+        <title id="diag-title">Diagrama de dos planos. En el plano de control, HBX decide, aprueba y expira. En el plano de datos, dentro de su red privada y sin puertos abiertos a internet, el conector de HBX se instala junto al sistema legacy: llama hacia afuera para recibir la autorización, recibe el túnel cifrado del agente y habla con el sistema legacy por la red local. Los datos nunca suben al plano de control.</title>
+        <text x="26" y="30" font-family="'Hanken Grotesk',sans-serif" font-size="12" letter-spacing="1.8" fill="#64748b">PLANO DE CONTROL</text>
+        <text x="26" y="256" font-family="'Hanken Grotesk',sans-serif" font-size="12" letter-spacing="1.8" fill="#64748b">PLANO DE DATOS</text>
+        <line x1="24" y1="222" x2="836" y2="222" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-dasharray="3 6"/>
 
-        <rect x="280" y="56" width="200" height="104" rx="14" fill="rgba(110,139,255,0.10)" stroke="#6E8BFF" stroke-width="1.5"/>
-        <text x="380" y="100" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="21" fill="#ffffff">HBX</text>
-        <text x="380" y="128" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="14.5" fill="#94a3b8">decide · aprueba · expira</text>
+        <rect x="330" y="52" width="200" height="100" rx="14" fill="rgba(110,139,255,0.10)" stroke="#6E8BFF" stroke-width="1.5"/>
+        <text x="430" y="94" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="21" fill="#ffffff">HBX</text>
+        <text x="430" y="122" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="14.5" fill="#94a3b8">decide · aprueba · expira</text>
 
-        <path d="M310,160 C250,205 190,245 152,296" stroke="#6E8BFF" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
-        <path d="M152,296 l1,-11 l8,7 z" fill="#6E8BFF"/>
-        <text x="196" y="208" font-family="'Hanken Grotesk',sans-serif" font-size="14" fill="#8ea4ff" text-anchor="middle">autoriza el camino</text>
+        <rect x="286" y="278" width="550" height="164" rx="16" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.16)" stroke-width="1.2" stroke-dasharray="4 6"/>
+        <text x="306" y="432" font-family="'Hanken Grotesk',sans-serif" font-size="11.5" letter-spacing="1.5" fill="#64748b">SU RED PRIVADA · SIN PUERTOS ABIERTOS A INTERNET</text>
 
-        <path d="M450,160 C510,205 570,245 608,296" stroke="#6E8BFF" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
-        <path d="M608,296 l-9,-7 l8,-4 z" fill="#6E8BFF"/>
-        <text x="568" y="208" font-family="'Hanken Grotesk',sans-serif" font-size="14" fill="#8ea4ff" text-anchor="middle">acuña la llave de sesión</text>
+        <path d="M360,152 C286,192 180,252 112,322" stroke="#6E8BFF" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+        <path d="M112,322 l1,-12 l9,7 z" fill="#6E8BFF"/>
+        <text x="196" y="200" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#8ea4ff">autoriza el acceso</text>
 
-        <rect x="64" y="300" width="176" height="82" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" stroke-width="1.3"/>
-        <text x="152" y="336" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">El agente</text>
-        <text x="152" y="360" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">o su técnico</text>
+        <path d="M424,322 C440,268 466,206 498,158" stroke="#6E8BFF" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+        <path d="M498,158 l-2,12 l-9,-6 z" fill="#6E8BFF"/>
+        <text x="524" y="200" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#8ea4ff">llama hacia afuera</text>
 
-        <rect x="520" y="300" width="176" height="82" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" stroke-width="1.3"/>
-        <text x="608" y="336" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">Su sistema legacy</text>
-        <text x="608" y="360" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">core · ERP · base de datos</text>
+        <rect x="24" y="326" width="170" height="88" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" stroke-width="1.3"/>
+        <text x="109" y="362" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">El agente</text>
+        <text x="109" y="386" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">o su técnico</text>
 
-        <line x1="248" y1="341" x2="512" y2="341" stroke="#34d399" stroke-width="3"/>
-        <path d="M512,341 l-11,-6 v12 z" fill="#34d399"/>
-        <path d="M248,341 l11,-6 v12 z" fill="#34d399"/>
-        <text x="380" y="330" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-weight="600" font-size="14.5" fill="#6ee7b7">túnel cifrado, de punto a punto</text>
-        <text x="380" y="414" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">sus datos viajan directo, nunca suben al plano de control</text>
+        <rect x="312" y="326" width="180" height="88" rx="14" fill="rgba(110,139,255,0.08)" stroke="rgba(110,139,255,0.45)" stroke-width="1.4"/>
+        <text x="402" y="362" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">Conector HBX</text>
+        <text x="402" y="386" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">al lado de su sistema</text>
+
+        <rect x="580" y="326" width="232" height="88" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)" stroke-width="1.3"/>
+        <text x="696" y="362" text-anchor="middle" font-family="'Space Grotesk','Hanken Grotesk',sans-serif" font-weight="700" font-size="16.5" fill="#ffffff">Su sistema legacy</text>
+        <text x="696" y="386" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="13.5" fill="#94a3b8">core · ERP · base de datos</text>
+
+        <line x1="198" y1="370" x2="308" y2="370" stroke="#34d399" stroke-width="3"/>
+        <path d="M308,370 l-11,-6 v12 z" fill="#34d399"/>
+        <path d="M198,370 l11,-6 v12 z" fill="#34d399"/>
+        <text x="253" y="356" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-weight="600" font-size="13" fill="#6ee7b7">túnel cifrado</text>
+
+        <line x1="496" y1="370" x2="576" y2="370" stroke="rgba(255,255,255,0.38)" stroke-width="2"/>
+        <path d="M576,370 l-10,-5 v10 z" fill="rgba(255,255,255,0.55)"/>
+        <path d="M496,370 l10,-5 v10 z" fill="rgba(255,255,255,0.55)"/>
+        <text x="536" y="356" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="12" fill="#94a3b8">red local</text>
       </svg>
+      <p class="diagram-note">El conector se instala junto a su sistema y es el único que le habla, por la red local de siempre. Como llama hacia afuera, su sistema no necesita un solo puerto abierto a internet. Y los datos viajan cifrados entre el agente y el conector: nunca suben al plano de control.</p>
     </div>
     <div class="beats reveal">
       <div class="beat">
@@ -902,7 +921,7 @@
         <span class="beat-num">05</span>
         <div>
           <h3>El tráfico va directo</h3>
-          <p>Cifrado, de punto a punto, entre el agente y su sistema. Nunca pasa por HBX: un intermediario que ve su tráfico no es una protección, es un riesgo nuevo.</p>
+          <p>Cifrado, de punto a punto, entre el agente y el conector que está al lado de su sistema. Nunca pasa por HBX: un intermediario que ve su tráfico no es una protección, es un riesgo nuevo.</p>
         </div>
       </div>
       <div class="beat">
@@ -918,7 +937,7 @@
       <span class="pillar-chip">Se vence solo</span>
       <span class="pillar-chip">Con nombre y aprobación</span>
     </div>
-    <p class="producto-note reveal">Su sistema legacy no se toca: ni firmware, ni esquema, ni una línea de código.</p>
+    <p class="producto-note reveal">Su sistema legacy no se toca: ni firmware, ni esquema, ni una línea de código. Lo único que se instala es el conector, al lado.</p>
   </div>
 </section>
 
